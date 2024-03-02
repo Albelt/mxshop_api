@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = ".;config";
+
+message Config {
+  Server server = 1;
+  Redis redis = 4;
+  Consul consul = 6;
+  Oss oss = 7;
+}
+
+message Server {
+  string ip = 1;
+  int32 port = 2;
+
+  // 服务名称、标签、出口IP
+  string name = 3;
+  repeated string tags = 4;
+  string external_ip = 5; //@gotags: mapstructure:"external_ip"
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int64 db = 3;
+}
+
+message Consul {
+  message HealthCheck {
+    string interval = 1;
+    string timeout = 2;
+    string deregister = 3;
+  }
+
+  string addr = 1;
+  HealthCheck health_check = 2; //@gotags: mapstructure:"health_check"
+}
+
+message Oss {
+  string username = 1;
+  string accesskey_id = 2; //@gotags: mapstructure:"accesskey_id"
+  string accesskey_secret = 3; //@gotags: mapstructure:"accesskey_secret"
+  string endpoint = 4;
+  string bucket = 5;
+  string upload_dir = 6; //@gotags: mapstructure:"upload_dir"
+  string callback_url = 7; //@gotags: mapstructure:"callback_url"
+  string host = 8;
+}

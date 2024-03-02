@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option go_package = ".;config";
+
+message Config {
+  Server server = 1;
+  UserSrv user_srv = 2; // @gotags: mapstructure:"user_srv"
+  Jwt jwt = 3;
+  Redis redis = 4;
+  Sms sms = 5;
+  Consul consul = 6;
+}
+
+message Server {
+  string ip = 1;
+  int32 port = 2;
+
+  // 服务名称、标签、出口IP
+  string name = 3;
+  repeated string tags = 4;
+  string external_ip = 5; //@gotags: mapstructure:"external_ip"
+}
+
+message UserSrv {
+  string name = 1;
+}
+
+message Jwt {
+  string key = 1;
+  string expire = 2;
+  string issure = 3;
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int64 db = 3;
+}
+
+message Sms {
+  message TemplateCode {
+    string verification = 1;
+  }
+
+  string access_key_id = 1; // @gotags: mapstructure:"access_key_id"
+  string access_key_secret = 2; // @gotags: mapstructure:"access_key_secret"
+  string endpoint = 3;
+  string signature = 4;
+  TemplateCode template_code = 5; // @gotags: mapstructure:"template_code"
+}
+
+message Consul {
+  message HealthCheck {
+    string interval = 1;
+    string timeout = 2;
+    string deregister = 3;
+  }
+
+  string addr = 1;
+  HealthCheck health_check = 2; //@gotags: mapstructure:"health_check"
+}

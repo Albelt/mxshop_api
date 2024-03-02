@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option go_package = ".;config";
+
+message Config {
+  Server server = 1;
+  GoodsSrv goods_srv = 2; // @gotags: mapstructure:"goods_srv"
+  Redis redis = 4;
+  Consul consul = 6;
+  Oss oss = 7;
+  Tracing tracing = 8;
+}
+
+message Server {
+  string ip = 1;
+  int32 port = 2;
+
+  // 服务名称、标签、出口IP
+  string name = 3;
+  repeated string tags = 4;
+  string external_ip = 5; //@gotags: mapstructure:"external_ip"
+}
+
+message GoodsSrv {
+  string name = 1;
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int64 db = 3;
+}
+
+message Consul {
+  message HealthCheck {
+    string interval = 1;
+    string timeout = 2;
+    string deregister = 3;
+  }
+
+  string addr = 1;
+  HealthCheck health_check = 2; //@gotags: mapstructure:"health_check"
+}
+
+message Oss {
+  string username = 1;
+  string endpoint = 2;
+  string accesskey_id = 3; //@gotags: mapstructure:"accesskey_id"
+  string accesskey_secret = 4; //@gotags: mapstructure:"accesskey_secret"
+  string bucket = 5;
+}
+
+message Tracing {
+  string jaeger_addr = 1; //@gotags: mapstructure:"jaeger_addr"
+}

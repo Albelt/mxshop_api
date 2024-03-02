@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option go_package = ".;config";
+
+message Config {
+  Server server = 1;
+  Redis redis = 4;
+  Consul consul = 6;
+  GrpcSrvs grpc_srvs = 7; //@gotags: mapstructure:"grpc_srvs"
+  Alipay alipay = 8;
+  Tracing tracing = 9;
+}
+
+message Server {
+  string ip = 1;
+  int32 port = 2;
+
+  // 服务名称、标签、出口IP
+  string name = 3;
+  repeated string tags = 4;
+  string external_ip = 5; //@gotags: mapstructure:"external_ip"
+}
+
+message Redis {
+  string addr = 1;
+  string password = 2;
+  int64 db = 3;
+}
+
+message Consul {
+  message HealthCheck {
+    string interval = 1;
+    string timeout = 2;
+    string deregister = 3;
+  }
+
+  string addr = 1;
+  HealthCheck health_check = 2; //@gotags: mapstructure:"health_check"
+}
+
+message GrpcSrvs {
+  string order_srv_name = 1; //@gotags: mapstructure:"order_srv_name"
+}
+
+message Alipay {
+  string appid = 1;
+  string ali_public_key = 2; //@gotags: mapstructure:"ali_public_key"
+  string public_key = 3; //@gotags: mapstructure:"public_key"
+  string private_key = 4; //@gotags: mapstructure:"private_key"
+  string notify_url = 5; //@gotags: mapstructure:"notify_url"
+  string return_url = 6; //@gotags: mapstructure:"return_url"
+}
+
+message Tracing {
+  string jaeger_addr = 1; //@gotags: mapstructure:"jaeger_addr"
+}

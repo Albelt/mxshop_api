@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+    <button type="button" id="query">请求数据</button>
+    <div id="content" style="background-color: aquamarine; width: 300px;height: 500px"></div>
+</body>
+<script type="text/javascript">
+    $("#query").click(function () {
+        $.ajax(
+            {
+                url:"http://127.0.0.1:81/api/v1/users/?page=1&count=10",
+
+                dataType: "json",
+                type: "get",
+                beforeSend: function(request) {
+                  request.setRequestHeader("access-token", "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLlsI_mmI4iLCJ1c2VyX3JvbGUiOjIsImlzcyI6ImFsYmVsdC50b3AiLCJleHAiOjE3MDExNzczMDgsIm5iZiI6MTcwMDkxODEwOH0.VfkyiitMGgcCm_o4l0bC1ElezLcnf4LNJuWualsakxkp2FhnZJTHhoIYv203z_5EosPeVyKyA9bEf2vXGHq_Pg");
+                },
+                success: function (result) {
+                    console.log(result.data);
+                    $("#content").text(result.data)
+                },
+                error: function (data) {
+                    alert("请求出错")
+                }
+            }
+        );
+    });
+</script>
+</html>
